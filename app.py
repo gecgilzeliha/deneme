@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 import string
 
-# Sayfa ayarlarını geniş yapalım
+
 st.set_page_config(page_title="Müşteri Analiz Paneli", layout="wide")
 
 # Veriyi önbelleğe (cache) alalım ki sayfa her yenilendiğinde baştan okumasın (RAM dostu)
@@ -13,7 +13,7 @@ def load_data():
     df = pd.read_csv("starbucks_customer_ordering_patterns.csv")
     df = df[['customer_age_group', 'drink_category']].dropna()
     
-    # Metin temizleme (Süzme)
+    #  (Süzme)
     df['temiz_metin'] = df['drink_category'].str.lower()
     df['temiz_metin'] = df['temiz_metin'].apply(lambda x: str(x).translate(str.maketrans('', '', string.punctuation)))
     return df
@@ -43,7 +43,7 @@ with col1:
     
     fig1, ax1 = plt.subplots(figsize=(6,6))
     ax1.pie(icecek_sayilari, labels=icecek_sayilari.index, autopct='%1.1f%%', startangle=90, )
-    ax1.axis('equal')  # Tam yuvarlak olması için
+    ax1.axis('equal') 
     st.pyplot(fig1)
 
 with col2:
@@ -66,7 +66,7 @@ with col2:
             filtre = bigram_df['Kelime İkilisi'].str.startswith(aranan_kelime.lower() + " ")
             bigram_df = bigram_df[filtre]
         
-        # Sonucu şık bir tablo olarak göster
+        # Sonucu  bir tablo olarak göster
         st.dataframe(bigram_df.head(10), use_container_width=True)
     except ValueError:
         st.info("Bu yaş grubunda ikili kelime (bi-gram) oluşturacak yeterli veri bulunamadı.")
