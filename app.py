@@ -59,6 +59,12 @@ with col2:
         
         bigram_df = pd.DataFrame({'Kelime İkilisi': ikili_kelimeler, 'Frekans': frekanslar})
         bigram_df = bigram_df.sort_values(by='Frekans', ascending=False).reset_index(drop=True)
+        aranan_kelime = st.text_input("Arkasından ne geldiğini merak ettiğiniz kelimeyi yazın (Örn: iced, caramel):")
+        
+        if aranan_kelime:
+            # Sadece aranan kelime ve boşluk ile başlayanları filtrele
+            filtre = bigram_df['Kelime İkilisi'].str.startswith(aranan_kelime.lower() + " ")
+            bigram_df = bigram_df[filtre]
         
         # Sonucu şık bir tablo olarak göster
         st.dataframe(bigram_df.head(10), use_container_width=True)
