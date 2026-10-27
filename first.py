@@ -4,12 +4,12 @@ import string
 # 1. Veriyi okuma
 df = pd.read_csv("starbucks_customer_ordering_patterns.csv")
 
-# 2. Sadece işimize yarayacak sütunları (Yaş ve İçecek) seçelim 
+# 2. Sadece Yaş ve İçecek seç 
 # ve içi boş (NaN) olan hatalı satırları atalım
 df = df[['customer_age_group', 'drink_category']].dropna()
 
 # 3. METİN TEMİZLEME (SÜZME)
-# Önce tüm harfleri küçültelim
+# tüm harfleri küçültelim
 df['temiz_metin'] = df['drink_category'].str.lower()
 
 # Noktalama işaretlerini temizleyen küçük bir fonksiyon yazalım
@@ -27,10 +27,10 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 print("\n--- İkili Kelime (Bi-gram) Analizi ---")
 
-# ngram_range=(2,2) parametresi kelimeleri tek tek değil, peş peşe gelen ikili gruplar halinde almamızı sağlar
+# ngram_range=(2,2) parametresi kelimeleri tek tek değil, peş peşe gelen ikili gruplar halinde al
 vectorizer = CountVectorizer(ngram_range=(2, 2))
 
-# Sadece temizlenmiş metinlerimizi analiz aracına veriyoruz
+# Sadece temizlenmiş metinlerimizi analiz aracına gönder 
 X = vectorizer.fit_transform(df['temiz_metin'])
 
 # Hangi kelime çiftinin kaç kez geçtiğini topluyoruz
@@ -55,7 +55,7 @@ yas_icecek_dagilimi = df.groupby(['customer_age_group', 'drink_category']).size(
 # Veriyi bir sütun grafiği (bar chart) olarak çizdiriyoruz
 yas_icecek_dagilimi.plot(kind='bar', figsize=(10, 6), colormap='viridis')
 
-# Grafiğin başlık ve eksen isimlerini ekliyoruz
+#  başlık ve eksen isimleri
 plt.title("Yaş Gruplarına Göre En Çok Aranan/Sipariş Edilen Ürünler")
 plt.xlabel("Yaş Grupları")
 plt.ylabel("Sipariş Sayısı (Frekans)")
@@ -63,5 +63,5 @@ plt.xticks(rotation=45) # Yaş etiketleri birbirine girmesin diye 45 derece eği
 plt.legend(title="İçecek Kelimesi", bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 
-# Grafiği ekranda gösteriyoruz
+# Grafik 
 plt.show()
